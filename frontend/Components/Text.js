@@ -1,24 +1,6 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-export function TitleText({ children }) {
-  return (
-    <Text style={styles.titleTextStyle}>{children}</Text>
-  );
-}
-
-export function LabelText({ children }) {
-  return (
-    <Text style={styles.labelTextStyle}>{children}</Text>
-  );
-}
-
-export function SubTitleText({ children }) {
-  return (
-    <Text style={styles.subTitleTextStyle}>{children}</Text>
-  );
-}
-
-const styles = StyleSheet.create({
+export const textStyles = StyleSheet.create({
     subTitleTextStyle: {
         fontSize: 18,
         fontWeight: 'regular',

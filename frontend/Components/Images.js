@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 
-export default ShapeImage = () => {
+export default function ShapeImage() {
   return (
     <View style={styles.container}>
         <ImageBackground style={styles.image} source={require('../assets/color-block.png')} />

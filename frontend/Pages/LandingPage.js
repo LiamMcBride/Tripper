@@ -1,13 +1,15 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { JoinButton, LoginButton } from '../Components/Buttons';
 import BottomCard from '../Components/Cards';
-import { TitleText, SubTitleText } from '../Components/Text';
+import { TitleText, SubTitleText, textStyles } from '../Components/Text';
+import ShapeImage from '../Components/Images';
+
 export default function LandingPage() {
   return (
     <View style={styles.container}>
         <ShapeImage></ShapeImage>
-        <TitleText>We're excited to help you plan so many memories!</TitleText>
-        <SubTitleText>For those who are tired of making new random group chats for each event.</SubTitleText>
+        <Text style={textStyles.titleTextStyle}>We're excited to help you plan so many memories!</Text>
+        <Text style={textStyles.subTitleTextStyle}>For those who are tired of making new random group chats for each event.</Text>
         <BottomCard>
             <JoinButton title={"Join"}></JoinButton>
             <LoginButton title={"Login"}></LoginButton>

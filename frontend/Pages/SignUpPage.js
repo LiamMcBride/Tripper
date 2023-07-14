@@ -1,12 +1,12 @@
-import { StyleSheet, View } from 'react-native';
-import TextInputWTitle from '../Components/Inputs';
-import TitleText from '../Components/Text';
+import { StyleSheet, View, Text } from 'react-native';
+import { textStyles } from '../Components/Text';
 
 export default function SignUpPage() {
   return (
     <View style={styles.container}>
-        <TitleText>Go ahead and fill out the info to sign up!</TitleText>
-        <TextInputWTitle></TextInputWTitle>
+      <Text style={textStyles.titleTextStyle}>hi</Text>
+        {/* <TitleText>Go ahead and fill out the info to sign up!</TitleText>
+        <TextInputWTitle></TextInputWTitle> */}
     </View>
   );
 }

@@ -1,9 +1,12 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import SignUpPage from './Pages/SignUpPage';
+import LandingPage from './Pages/LandingPage';
+// import SignUpPage from './Pages/SignUpPage';
 
 export default function App() {
   return (
     <SignUpPage></SignUpPage>
+    // <LandingPage></LandingPage>
   );
 }
 

@@ -13,9 +13,10 @@ export const textStyles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
+        width: '85%'
     },
     labelTextStyle: {
-        fontSize: 2,
+        fontSize: 16,
         fontWeight: 'bold',
     },
     

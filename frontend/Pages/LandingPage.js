@@ -4,7 +4,7 @@ import BottomCard from '../Components/Cards';
 import { TitleText, SubTitleText, textStyles } from '../Components/Text';
 import ShapeImage from '../Components/Images';
 
-export default function LandingPage() {
+export default function LandingPage({ setPage }) {
   return (
     <View style={styles.container}>
         <ShapeImage></ShapeImage>

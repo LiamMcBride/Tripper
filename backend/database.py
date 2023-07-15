@@ -38,3 +38,4 @@ class Database():
                        (firstName, lastName, email, phone, pword))
         conn.commit()
         conn.close()
+        print("User saved")

@@ -1,6 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from Security import salt_and_hash
 from User import User, retrieve_user_by_email
+import json
 # Create an instance of the Flask class
 app = Flask(__name__)
 
@@ -36,13 +37,14 @@ def sign_up():
 		error_msg += "Error: No lastName field or content\n"
 	
 	if error_msg != "":
+		print(error_msg)
 		return error_msg
 
 	content['password'] = (salt_and_hash(content['password']))
 	usr = User(content['firstName'],content['lastName'],content['email'],content['phone'],content['password'])
 	usr.save()
-
-	return "Success"
+	print(jsonify())
+	return jsonify()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -4,7 +4,7 @@ import TextInputWTitle from '../Components/Inputs';
 import React from 'react';
 import { JoinButton } from '../Components/Buttons';
 
-export default function SignUpPage({ setPage }) {
+export default function LoginPage({ setPage }) {
   const [email, changeEmail] = React.useState("");
   const [fName, changeFName] = React.useState("");
   const [lName, changeLName] = React.useState("");
@@ -38,7 +38,6 @@ export default function SignUpPage({ setPage }) {
           .then(response => response.json())
           .then(retData => {
             console.log(retData);
-            setPage();
           })
           .catch(error => {
             console.error(error);

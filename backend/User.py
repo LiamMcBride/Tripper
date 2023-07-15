@@ -9,6 +9,7 @@ class User():
         self.password = password
         
     def save(self):
+        print("saving")
         db = Database()
         db.save_user(self.firstName, self.lastName, self.email, self.phone, self.password)
         

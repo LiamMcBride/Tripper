@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from Security import salt_and_hash
-from User import User, retrieve_user_by_email
+from User import User, retrieve_user_by_email, retrieve_user_by_email_token_verified
+from auth import generate_jwt, verify_jwt, get_user_from_token
+from Community import Community, new_community
 import json
 # Create an instance of the Flask class
 app = Flask(__name__)
@@ -49,12 +51,56 @@ def sign_up():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	content = request.json
-	print(content)
-	content['password'] = (salt_and_hash(content['password']))
-	usr = retrieve_user_by_email(content['email'], content['password'])
-	if not usr == None:
-		return str(usr)
-	return "Email and password don't match"
+	hashed_password = ""	
+	usr = None
+ 	# determine if token is present
+	if content.get('token') != None and verify_jwt(content.get('token'), content.get('email')):
+		print("[/login] Verified via token")
+		usr = retrieve_user_by_email_token_verified(content.get('email'))
+		ret_obj = {
+			"email": usr.email,
+			"token": content.get('token')
+		}
+	# user doesn't successfully verify here
+	elif content.get('password') == None:
+		print("[/login] No password given and token is invalid")
+		ret_obj = {"message": "Token not valid and password isn't present. Please reverify with password included."}
+	else:
+		hashed_password = (salt_and_hash(content['password']))
+		usr = retrieve_user_by_email(content['email'], hashed_password)
+		print(usr)
+		if usr == None:
+			print("[/login] Password didn't match or user doesn't exist")
+			ret_obj = {"message": "Authentication failed, please use correct email and password."}
+		else:
+			print("[/login] Verified via password, issued new token")
+			ret_obj = {
+				"email": usr.email,
+				"token": generate_jwt(usr.email, usr.firstName, usr.lastName)
+			}
+	return jsonify(ret_obj)
+
+@app.route('/create_community', methods=['GET', 'POST'])
+def create_community():
+    '''
+    {
+		"token": "...",
+		"community_name": "new community"
+	}
+    '''
+    content = request.json
+    token = content.get('token')
+    
+    if verify_jwt(token):
+        usr = get_user_from_token(token)
+        print(str(usr))
+        com = new_community(name=content.get('community_name'))
+        com.add_user_to_community(usr, 0)
+    
+    return jsonify({
+		"message": "Community created and user added"
+	})
+    
 
 # Run the application if this file is executed directly
 if __name__ == '__main__':

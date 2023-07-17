@@ -39,3 +39,41 @@ class Database():
         conn.commit()
         conn.close()
         print("User saved")
+    
+    def retrieve_secret(self, name):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT secret FROM Secrets where name = '{name}'")
+        rows = cursor.fetchall()
+        conn.commit()
+        conn.close()
+        if len(rows) == 0:
+            return None
+        
+        return rows[0][0]
+    
+    def retrieve_community_by_name(self, name):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM Communities where name = '{name}'")
+        rows = cursor.fetchall()
+        conn.commit()
+        conn.close()
+        if len(rows) == 0:
+            return None
+        
+        return rows[0]
+    
+    def save_community(self, name, parentId=-1):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        cursor.execute(f"INSERT INTO Communities (name, parentId) values('{name}', {parentId})")
+        conn.commit()
+        conn.close()
+    
+    def add_user_to_community(self, userId, communityId, accessLevel):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        cursor.execute(f"INSERT INTO User_Communities (userId, communityId, accessLevel) values('{userId}', {communityId}, {accessLevel})")
+        conn.commit()
+        conn.close()

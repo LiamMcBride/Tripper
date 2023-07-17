@@ -1,7 +1,8 @@
 from database import Database
 
 class User():
-    def __init__(self, firstName, lastName, email, phone, password):
+    def __init__(self, userId, firstName, lastName, email, phone, password):
+        self.id = userId
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
@@ -21,9 +22,16 @@ def retrieve_user_by_email(email, pword):
     data = db.retrieve_user_by_email(email)
     
     if data == None:
+        print("db came back empty")
         return None
     
+    print(f"given: {pword}\n   db: {data[4]}")
     if data[4] == pword:
-        return User(data[0],data[1],data[2],data[3],data[4],)
+        return User(data[5],data[0],data[1],data[2],data[3],data[4],)
     else:
         return None
+    
+def retrieve_user_by_email_token_verified(email):
+    db = Database()
+    data = db.retrieve_user_by_email(email)
+    return User(data[5],data[0],data[1],data[2],data[3],data[4],)

@@ -4,42 +4,25 @@ import LandingPage from './Pages/LandingPage';
 import React from 'react';
 import LoginPage from './Pages/LoginPage';
 import AppPage from './Pages/AppPage';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { MyStack } from './StartApp';
 // import HomePage from './Pages/HomePage';
 // import SignUpPage from './Pages/SignUpPage';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = React.useState("landing");
-  
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  }
-  
-  
-  let pageToRender = <Text>No Page</Text>;
+  const Stack = createNativeStackNavigator();
 
-
-  if (currentPage === "signup") {
-    pageToRender = <SignUpPage setPage={handlePageChange}></SignUpPage>;
-  } else if (currentPage === "login") {
-    pageToRender = <LoginPage setPage={handlePageChange}></LoginPage>;
-  } else if (currentPage === "landing") {
-    pageToRender = <LandingPage setPage={handlePageChange}></LandingPage>;
-  } else if (currentPage === "logged_in") {
-    pageToRender = <AppPage setPage={handlePageChange}></AppPage>;
-  }
-  else{
-    pageToRender = <Text>No Page</Text>;
-  }
-
-
-
-  //<SignUpPage setPage={{setCurrentPage}}></SignUpPage>
-  //<Login setPage={setCurrentPage}></Login>
-  //<LandingPage setPage={setCurrentPage}></LandingPage>
   return (
-    <View style={styles.mainView}>
-      {pageToRender}
-    </View>
+    <NavigationContainer>
+      {/* <Stack.Navigator>
+        <Stack.Screen name="Hello" component={LandingPage} />
+        <Stack.Screen name="Sign Up" component={SignUpPage} />
+        <Stack.Screen name="Login" component={LoginPage} />
+        <Stack.Screen name="Home" component={AppPage} />
+      </Stack.Navigator> */}
+      <MyStack></MyStack>
+    </NavigationContainer>
   );
 }
 

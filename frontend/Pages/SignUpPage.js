@@ -3,28 +3,24 @@ import { textStyles } from '../Components/Text';
 import TextInputWTitle from '../Components/Inputs';
 import React from 'react';
 import { JoinButton } from '../Components/Buttons';
+import { containerStyles } from './LandingPage';
 
-export default function SignUpPage({ setPage }) {
-  const [email, changeEmail] = React.useState("");
-  const [fName, changeFName] = React.useState("");
-  const [lName, changeLName] = React.useState("");
-  const [pword, changePWord] = React.useState("");
+export default function SignUpPage({navigation}) {
 
   return (
-    <View style={styles.container}>
-      <Text onPress={setPage("landing")} style={styles.backButton}>Back</Text>
+    <View style={containerStyles.screenContainer}>
       <Text style={textStyles.titleTextStyle}>Go ahead and fill out the info to sign up!</Text>
-      <TextInputWTitle value={fName} onChangeText={changeFName} text={"First"} autoCapitalize='words'></TextInputWTitle>
+      {/* <TextInputWTitle value={fName} onChangeText={changeFName} text={"First"} autoCapitalize='words'></TextInputWTitle>
       <TextInputWTitle value={lName} onChangeText={changeLName} text={"Last"} autoCapitalize='words'></TextInputWTitle>
       <TextInputWTitle value={email} onChangeText={changeEmail} text={"Email"}></TextInputWTitle>
-      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle>
+      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle> */}
       <View style={styles.buttonContainer}>
         <JoinButton title="Join" onPress={() => {
           const data = {
-            "email":email,
-            "firstName":fName,
-            "lastName":lName,
-            "password":pword,
+            // "email":email,
+            // "firstName":fName,
+            // "lastName":lName,
+            // "password":pword,
             "phone": "0000000000",
           }
           console.log(data);
@@ -39,10 +35,11 @@ export default function SignUpPage({ setPage }) {
           .then(response => response.json())
           .then(retData => {
             console.log(retData);
-            setPage("login");
+            navigation.replace("Login");
           })
           .catch(error => {
             console.error(error);
+            navigation.replace("Login");
           })
 
 

@@ -3,26 +3,24 @@ import { textStyles } from '../Components/Text';
 import TextInputWTitle from '../Components/Inputs';
 import React from 'react';
 import { JoinButton } from '../Components/Buttons';
+import { containerStyles } from './LandingPage';
 // import * as SecureStore from 'expo-secure-store';
 
 
 
-export default function LoginPage({ setPage }) {
-  const [email, changeEmail] = React.useState("");
-  const [pword, changePWord] = React.useState("");
+export default function LoginPage() {
 
   return (
-    <View style={styles.container}>
-      <Text onPress={setPage("landing")} style={styles.backButton}>Back</Text>
+    <View style={containerStyles.screenContainer}>
       <Text style={textStyles.titleTextStyle}>Give your email and password to login.</Text>
-      <TextInputWTitle value={email} onChangeText={changeEmail} text={"Email"}></TextInputWTitle>
-      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle>
+      {/* <TextInputWTitle value={email} onChangeText={changeEmail} text={"Email"}></TextInputWTitle>
+      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle> */}
       <View style={styles.buttonContainer}>
         <JoinButton title="Login" onPress={() => {
           // const token = SecureStore.getItemAsync('secure_token');
           const data = {
-            "email":email,
-            "password":pword,
+            // "email":email,
+            // "password":pword,
             "token": "token",
           }
           console.log(data);
@@ -37,7 +35,7 @@ export default function LoginPage({ setPage }) {
           .then(response => response.json())
           .then(retData => {
             console.log(retData);
-            setPage("logged_in");
+            // navigation.navigate("AppPage", {name: "Home"});
             // SecureStore.setItemAsync('secure_token',retData["token"]);
           })
           .catch(error => {

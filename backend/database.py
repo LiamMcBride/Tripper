@@ -1,4 +1,13 @@
 import sqlite3
+import random
+import string
+
+def generate_random_code():
+    alphanumeric_chars = string.ascii_letters + string.digits
+    code_length = 8
+    code = ''.join(random.choice(alphanumeric_chars) for _ in range(code_length))
+    return code
+
 
 class Database():
     
@@ -77,3 +86,42 @@ class Database():
         cursor.execute(f"INSERT INTO User_Communities (userId, communityId, accessLevel) values('{userId}', {communityId}, {accessLevel})")
         conn.commit()
         conn.close()
+    
+    def create_community_code(self, communityId):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        cursor.execute(f"INSERT INTO Community_Codes (communityId, code) values({communityId}, '{self.get_valid_community_code()}');",)
+        conn.commit()
+        conn.close()
+        
+    def get_community_from_code(self, code):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        cursor.execute(f"select Communities.id, Communities.name, Communities.parentId from Communities inner join Community_Codes on Communities.id = Community_Codes.communityId where Community_Codes.code = '{code}';")
+        rows = cursor.fetchall()
+        print(rows)
+        conn.commit()
+        conn.close()
+        if rows == []:
+            return None
+        return rows[0]
+        
+    def get_valid_community_code(self):
+        code = ""
+        while code == "":
+            code = generate_random_code()
+            if self.get_community_from_code(code) != None:
+                code = ""
+            else:
+                return code
+            
+    def is_user_in_community(self, userId, communityId):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        cursor.execute(f"select * from User_Communities where userId = {userId} and communityId = {communityId};")
+        rows = cursor.fetchall()
+        conn.commit()
+        conn.close()
+        if rows == []:
+            return False
+        return True

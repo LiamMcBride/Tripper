@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { JoinButton, LoginButton } from '../Components/Buttons';
 import BottomCard from '../Components/Cards';
-import { TitleText, SubTitleText, textStyles } from '../Components/Text';
+import { textStyles } from '../Components/Text';
 import ShapeImage from '../Components/Images';
 
 export default function LandingPage({ setPage }) {
@@ -11,8 +11,8 @@ export default function LandingPage({ setPage }) {
         <Text style={textStyles.titleTextStyle}>We're excited to help you plan so many memories!</Text>
         <Text style={textStyles.subTitleTextStyle}>For those who are tired of making new random group chats for each event.</Text>
         <BottomCard>
-            <JoinButton title={"Join"}></JoinButton>
-            <LoginButton title={"Login"}></LoginButton>
+            <JoinButton title={"Join"} onPress={setPage("signup")}></JoinButton>
+            <LoginButton title={"Login"} onPress={setPage("login")}></LoginButton>
         </BottomCard>
     </View>
   );

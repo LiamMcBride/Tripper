@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from Security import salt_and_hash
 from User import User, retrieve_user_by_email, retrieve_user_by_email_token_verified
 from auth import generate_jwt, verify_jwt, get_user_from_token
-from Community import Community, new_community
+from Community import Community, new_community, retrieve_community_by_code, is_user_in_community
 import json
 # Create an instance of the Flask class
 app = Flask(__name__)
@@ -42,8 +42,9 @@ def sign_up():
 		print(error_msg)
 		return error_msg
 
+	print("Password: " + content['password'])
 	content['password'] = (salt_and_hash(content['password']))
-	usr = User(content['firstName'],content['lastName'],content['email'],content['phone'],content['password'])
+	usr = User(-1,content['firstName'],content['lastName'],content['email'],content['phone'],content['password'])
 	usr.save()
 	print(jsonify())
 	return jsonify()
@@ -54,7 +55,7 @@ def login():
 	hashed_password = ""	
 	usr = None
  	# determine if token is present
-	if content.get('token') != None and verify_jwt(content.get('token'), content.get('email')):
+	if content.get('token') != None and verify_jwt(content.get('token')):
 		print("[/login] Verified via token")
 		usr = retrieve_user_by_email_token_verified(content.get('email'))
 		ret_obj = {
@@ -100,6 +101,29 @@ def create_community():
     return jsonify({
 		"message": "Community created and user added"
 	})
+
+@app.route('/join_community', methods=['GET', 'POST'])
+def join_community():
+    content = request.json
+    print(request.json)
+    token = content.get('token')
+    code = content.get('code')
+    
+    if verify_jwt(token):
+        print("token verified")
+        usr = get_user_from_token(token)
+        comm = retrieve_community_by_code(code)
+        
+        if comm == None:
+            return jsonify({"message": "Community not found"})
+
+        if not is_user_in_community(usr.id, comm.id):
+            comm.add_user_to_community(usr, 0)
+            return jsonify({"message": "User added to community"})
+        return jsonify({"message": "User is already in community"})
+    
+    return jsonify({"message": "Token not valid"})
+    
     
 
 # Run the application if this file is executed directly

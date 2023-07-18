@@ -3,32 +3,31 @@ import { textStyles } from '../Components/Text';
 import TextInputWTitle from '../Components/Inputs';
 import React from 'react';
 import { JoinButton } from '../Components/Buttons';
+// import * as SecureStore from 'expo-secure-store';
+
+
 
 export default function LoginPage({ setPage }) {
   const [email, changeEmail] = React.useState("");
-  const [fName, changeFName] = React.useState("");
-  const [lName, changeLName] = React.useState("");
   const [pword, changePWord] = React.useState("");
 
   return (
     <View style={styles.container}>
-      <Text style={textStyles.titleTextStyle}>Go ahead and fill out the info to sign up!</Text>
-      <TextInputWTitle value={fName} onChangeText={changeFName} text={"First"} autoCapitalize='words'></TextInputWTitle>
-      <TextInputWTitle value={lName} onChangeText={changeLName} text={"Last"} autoCapitalize='words'></TextInputWTitle>
+      <Text onPress={setPage("landing")} style={styles.backButton}>Back</Text>
+      <Text style={textStyles.titleTextStyle}>Give your email and password to login.</Text>
       <TextInputWTitle value={email} onChangeText={changeEmail} text={"Email"}></TextInputWTitle>
       <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle>
       <View style={styles.buttonContainer}>
-        <JoinButton title="Join" onPress={() => {
+        <JoinButton title="Login" onPress={() => {
+          // const token = SecureStore.getItemAsync('secure_token');
           const data = {
             "email":email,
-            "firstName":fName,
-            "lastName":lName,
             "password":pword,
-            "phone": "0000000000",
+            "token": "token",
           }
           console.log(data);
           
-          fetch('http://127.0.0.1:5000/signup', {
+          fetch('http://127.0.0.1:5000/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -38,12 +37,19 @@ export default function LoginPage({ setPage }) {
           .then(response => response.json())
           .then(retData => {
             console.log(retData);
+            setPage("logged_in");
+            // SecureStore.setItemAsync('secure_token',retData["token"]);
           })
           .catch(error => {
             console.error(error);
           })
+          /*
+          import * as SecureStore from 'expo-secure-store';
 
-
+          await SecureStore.setItemAsync('secure_token','sahdkfjaskdflas$%^&');
+          const token = await SecureStore.getItemAsync('secure_token');
+          console.log(token); // output: sahdkfjaskdflas$%^&
+          */
         }}></JoinButton>
       </View>
     </View>
@@ -65,5 +71,11 @@ const styles = StyleSheet.create({
     width: "75%",
     position: "absolute",
     bottom: "10%",
+  },
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 25,
+    color: "red"
   },
 });

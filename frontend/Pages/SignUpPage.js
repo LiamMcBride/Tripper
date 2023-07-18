@@ -12,6 +12,7 @@ export default function SignUpPage({ setPage }) {
 
   return (
     <View style={styles.container}>
+      <Text onPress={setPage("landing")} style={styles.backButton}>Back</Text>
       <Text style={textStyles.titleTextStyle}>Go ahead and fill out the info to sign up!</Text>
       <TextInputWTitle value={fName} onChangeText={changeFName} text={"First"} autoCapitalize='words'></TextInputWTitle>
       <TextInputWTitle value={lName} onChangeText={changeLName} text={"Last"} autoCapitalize='words'></TextInputWTitle>
@@ -38,7 +39,7 @@ export default function SignUpPage({ setPage }) {
           .then(response => response.json())
           .then(retData => {
             console.log(retData);
-            setPage();
+            setPage("login");
           })
           .catch(error => {
             console.error(error);
@@ -66,5 +67,11 @@ const styles = StyleSheet.create({
     width: "75%",
     position: "absolute",
     bottom: "10%",
+  },
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 25,
+    color: "red"
   },
 });

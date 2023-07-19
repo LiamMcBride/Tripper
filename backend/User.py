@@ -25,7 +25,6 @@ def retrieve_user_by_email(email, pword):
         print("db came back empty")
         return None
     
-    print(f"given: {pword}\n   db: {data[4]}")
     if data[4] == pword:
         return User(data[5],data[0],data[1],data[2],data[3],data[4],)
     else:

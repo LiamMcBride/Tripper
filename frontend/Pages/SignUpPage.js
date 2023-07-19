@@ -6,21 +6,26 @@ import { JoinButton } from '../Components/Buttons';
 import { containerStyles } from './LandingPage';
 
 export default function SignUpPage({navigation}) {
+  const [fName, changeFName] = React.useState("");
+  const [lName, changeLName] = React.useState("");
+  const [email, changeEmail] = React.useState("");
+  const [pword, changePWord] = React.useState("");
+
 
   return (
     <View style={containerStyles.screenContainer}>
       <Text style={textStyles.titleTextStyle}>Go ahead and fill out the info to sign up!</Text>
-      {/* <TextInputWTitle value={fName} onChangeText={changeFName} text={"First"} autoCapitalize='words'></TextInputWTitle>
+      <TextInputWTitle value={fName} onChangeText={changeFName} text={"First"} autoCapitalize='words'></TextInputWTitle>
       <TextInputWTitle value={lName} onChangeText={changeLName} text={"Last"} autoCapitalize='words'></TextInputWTitle>
       <TextInputWTitle value={email} onChangeText={changeEmail} text={"Email"}></TextInputWTitle>
-      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle> */}
+      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle>
       <View style={styles.buttonContainer}>
         <JoinButton title="Join" onPress={() => {
           const data = {
-            // "email":email,
-            // "firstName":fName,
-            // "lastName":lName,
-            // "password":pword,
+            "email":email,
+            "firstName":fName,
+            "lastName":lName,
+            "password":pword,
             "phone": "0000000000",
           }
           console.log(data);
@@ -35,11 +40,12 @@ export default function SignUpPage({navigation}) {
           .then(response => response.json())
           .then(retData => {
             console.log(retData);
-            navigation.replace("Login");
+            if(retData['message'] == "success"){
+              navigation.replace("Login");
+            }
           })
           .catch(error => {
             console.error(error);
-            navigation.replace("Login");
           })
 
 

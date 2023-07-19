@@ -25,7 +25,6 @@ request will look like:
 @app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
 	content = request.json
-	print(content)
 	error_msg = ""
 	if not 'email' in content or content.get('email') == "":
 		error_msg += "Error: No email field or content\n"
@@ -40,14 +39,12 @@ def sign_up():
 	
 	if error_msg != "":
 		print(error_msg)
-		return error_msg
+		return jsonify({"message": error_msg})
 
-	print("Password: " + content['password'])
 	content['password'] = (salt_and_hash(content['password']))
 	usr = User(-1,content['firstName'],content['lastName'],content['email'],content['phone'],content['password'])
 	usr.save()
-	print(jsonify())
-	return jsonify()
+	return jsonify({"message": "success"})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

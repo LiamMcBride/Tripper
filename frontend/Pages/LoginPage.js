@@ -4,23 +4,27 @@ import TextInputWTitle from '../Components/Inputs';
 import React from 'react';
 import { JoinButton } from '../Components/Buttons';
 import { containerStyles } from './LandingPage';
-// import * as SecureStore from 'expo-secure-store';
+import { StackActions, NavigationActions } from '@react-navigation/native';
 
 
 
-export default function LoginPage() {
+export default function LoginPage({navigation}) {
+
+  
+
+  const [email, changeEmail] = React.useState("");
+  const [pword, changePWord] = React.useState("");
 
   return (
     <View style={containerStyles.screenContainer}>
       <Text style={textStyles.titleTextStyle}>Give your email and password to login.</Text>
-      {/* <TextInputWTitle value={email} onChangeText={changeEmail} text={"Email"}></TextInputWTitle>
-      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle> */}
+      <TextInputWTitle value={email} onChangeText={changeEmail} text={"Email"}></TextInputWTitle>
+      <TextInputWTitle value={pword} onChangeText={changePWord} text={"Password"} secureTextEntry={true}></TextInputWTitle>
       <View style={styles.buttonContainer}>
         <JoinButton title="Login" onPress={() => {
-          // const token = SecureStore.getItemAsync('secure_token');
           const data = {
-            // "email":email,
-            // "password":pword,
+            "email":email,
+            "password":pword,
             "token": "token",
           }
           console.log(data);
@@ -35,19 +39,14 @@ export default function LoginPage() {
           .then(response => response.json())
           .then(retData => {
             console.log(retData);
-            // navigation.navigate("AppPage", {name: "Home"});
-            // SecureStore.setItemAsync('secure_token',retData["token"]);
+
+            if(retData['token'] != null){
+              navigation.navigate("Home");
+            }
           })
           .catch(error => {
             console.error(error);
           })
-          /*
-          import * as SecureStore from 'expo-secure-store';
-
-          await SecureStore.setItemAsync('secure_token','sahdkfjaskdflas$%^&');
-          const token = await SecureStore.getItemAsync('secure_token');
-          console.log(token); // output: sahdkfjaskdflas$%^&
-          */
         }}></JoinButton>
       </View>
     </View>
@@ -62,7 +61,6 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     backgroundColor: '#fff',
     alignItems: 'center',
-    // justifyContent: 'center',
     height: '100%',
   },
   buttonContainer: {

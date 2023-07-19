@@ -5,6 +5,7 @@ import { Button, Text, View } from 'react-native';
 import LandingPage from './Pages/LandingPage';
 import SignUpPage from './Pages/SignUpPage';
 import LoginPage from './Pages/LoginPage';
+import AppPage from './Pages/AppPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,11 +44,12 @@ export const MyStack = () => {
         <Stack.Screen name="Landing Page" component={LandingPage} />
         <Stack.Screen name="Sign Up" component={SignUpPage} />
         <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen
+        <Stack.Screen name="Home" component={AppPage} />
+        {/* <Stack.Screen
           name="Home"
           component={Home}
         />
-        <Stack.Screen name="Footer" component={Footer} />
+        <Stack.Screen name="Footer" component={Footer} /> */}
       </Stack.Navigator>
     // </NavigationContainer>
   );

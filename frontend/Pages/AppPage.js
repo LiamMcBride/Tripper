@@ -11,7 +11,7 @@ export default function AppPage({ setPage }) {
 
   return (
     <View style={styles.container}>
-      
+      <Text>Hi</Text>
     </View>
   );
 }

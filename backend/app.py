@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from Security import salt_and_hash
 from User import User, retrieve_user_by_email, retrieve_user_by_email_token_verified
 from auth import generate_jwt, verify_jwt, get_user_from_token
-from Community import Community, new_community, retrieve_community_by_code, is_user_in_community
+from Community import Community, new_community, retrieve_community_by_code, is_user_in_community, retrieve_chats_by_community_id
 import json
 # Create an instance of the Flask class
 app = Flask(__name__)
@@ -136,9 +136,10 @@ def community():
             return jsonify({"message": "Community not found"})
 
         if not is_user_in_community(usr.id, comm.id):
-            comm.add_user_to_community(usr, 0)
-            return jsonify({"message": "User added to community"})
-        return jsonify({"message": "User is already in community"})
+            return jsonify({"message": "User not in this community"})
+        
+        chats = retrieve_chats_by_community_id(comm.id)
+        return jsonify({"chats": [str(chat) for chat in chats]})
     
     return jsonify({"message": "Token not valid"})
     

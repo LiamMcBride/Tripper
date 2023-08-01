@@ -120,6 +120,27 @@ def join_community():
         return jsonify({"message": "User is already in community"})
     
     return jsonify({"message": "Token not valid"})
+
+@app.route('/community', methods=['GET', 'POST'])
+def community():
+    content = request.json
+    token = content.get('token')
+    code = content.get('code')
+    
+    if verify_jwt(token):
+        print("token verified")
+        usr = get_user_from_token(token)
+        comm = retrieve_community_by_code(code)
+        
+        if comm == None:
+            return jsonify({"message": "Community not found"})
+
+        if not is_user_in_community(usr.id, comm.id):
+            comm.add_user_to_community(usr, 0)
+            return jsonify({"message": "User added to community"})
+        return jsonify({"message": "User is already in community"})
+    
+    return jsonify({"message": "Token not valid"})
     
     
 

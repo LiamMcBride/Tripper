@@ -1,4 +1,5 @@
 from database import Database
+from Chat import Chat
 from User import User
 class Community():
     def __init__(self, name, communityId=-1, parentId=-1):
@@ -15,6 +16,11 @@ class Community():
         db = Database()
         db.add_user_to_community(user.id, self.id, accessLevel)
         print("saved community")
+        
+    def list_chats(self):
+        db = Database()
+        data = db.retrieve_chats_by_community_id(self.id)
+        return data
         
 def retrieve_community_by_name(name):
     db = Database()
@@ -36,3 +42,11 @@ def retrieve_community_by_code(code):
 def is_user_in_community(userId, communityId):
     db = Database()
     return db.is_user_in_community(userId, communityId)
+
+def retrieve_chats_by_community_id(communityId):
+    db = Database()
+    db_chats = db.retrieve_chats_by_community_id(communityId)
+    chats = []
+    for db_chat in db_chats:
+        chats.append(Chat(db_chat[1], db_chat[0], communityId))
+    return chats

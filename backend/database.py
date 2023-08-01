@@ -125,3 +125,20 @@ class Database():
         if rows == []:
             return False
         return True
+    
+    def retrieve_chats_by_community_id(self, communityId):
+        conn = sqlite3.connect('tripper.db')
+        cursor = conn.cursor()
+        '''
+        select Chats.id, Chats.name from Communities
+        inner join Chats
+        on Chats.communityId = Communities.id
+        where Communities.id = 1;
+        '''
+        cursor.execute(f"select Chats.id, Chats.name from Communities inner join Chats on Chats.communityId = Communities.id where Communities.id = {communityId};")
+        rows = cursor.fetchall()
+        conn.commit()
+        conn.close()
+        if rows == []:
+            return None
+        return rows
